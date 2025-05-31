@@ -38,7 +38,7 @@ export function EpisodesSection({
       {episodes.map((episode, index) => (
         <div key={episode.id}>
           <EpisodeCard episode={episode} />
-          {index < episodes.length - 1 && <EpisodeDivider />}
+          <EpisodeDivider />
         </div>
       ))}
     </div>
@@ -124,21 +124,19 @@ export function EpisodesSection({
             {isDropdownOpen && (
               <div className="absolute right-0 top-full mt-2 w-48 rounded-lg shadow-lg z-50 gradient-dropdown">
                 {/* Triangle pointer */}
-                <div className="absolute -top-1 right-4 w-0 h-0 border-l-4 border-r-4 border-b-4 border-l-transparent border-r-transparent border-b-[#7B5FC7]"></div>
-                <div className="p-1">
-                  {["compact", "scroll", "grid", "list"].map((mode) => (
+                <div className="absolute -top-1 right-4 w-0 h-0 border-l-4 border-r-4 border-b-4 border-l-transparent border-r-transparent border-b-[#7B5FC7]"></div>                <div className="p-1">                  {["compact", "scroll", "grid", "list"]
+                    .filter((mode) => mode !== episodeLayoutMode)
+                    .map((mode) => (
                     <button
                       key={mode}
-                      className={`w-full text-left px-4 py-2 text-sm text-white hover:bg-black/10 transition-colors h-10 cursor-pointer flex items-center space-x-2 ${
-                        episodeLayoutMode === mode ? "bg-black/20" : ""
-                      }`}
+                      className="w-full text-left px-4 py-2 text-sm text-white hover:bg-black/10 transition-colors h-10 cursor-pointer flex items-center space-x-2"
                       onClick={() => {
                         setEpisodeLayoutMode(mode as any);
                         setIsDropdownOpen(false);
                       }}
                     >
                       <span>
-                        {mode.charAt(0).toUpperCase() + mode.slice(1)}
+                        Switch to {mode.charAt(0).toUpperCase() + mode.slice(1)}
                       </span>
                     </button>
                   ))}
