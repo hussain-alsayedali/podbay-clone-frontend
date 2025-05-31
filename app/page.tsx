@@ -7,6 +7,10 @@ import { type Podcast } from "@/components/podcast-card";
 import { type Episode } from "@/components/episode-card";
 import { useEffect, useState } from "react";
 import { useSearchStore } from "@/lib/search-store";
+import { Search } from "lucide-react";
+
+const local = "http://localhost:3333";
+const prod = "https://explicit-opalina-personal-me-81e3dc4c.koyeb.app";
 export default function SearchPage() {
   const searchQuery = useSearchStore((s) => s.searchQuery);
   const [podcasts, setPodcasts] = useState<Podcast[]>([]);
@@ -17,12 +21,21 @@ export default function SearchPage() {
   useEffect(() => {
     async function fetchData() {
       const query = searchQuery;
-      if (query === "") return;
       console.log("Fetching data for:", query);
+      
+      if (query === "") {
+        // If no query, set empty state without loading
+        setPodcasts([]);
+        setEpisodes([]);
+        setLoading(false);
+        setError(null);
+        return;
+      }
+      
       setLoading(true);
       setError(null);
       try {
-        const res = await fetch(`http://localhost:3333/track/search/${query}`);
+        const res = await fetch(`${prod}/track/search/${query}`);
         if (!res.ok) throw new Error("Failed to fetch");
         const data = await res.json();
         console.log("Fetched data:", data);
@@ -78,6 +91,17 @@ export default function SearchPage() {
             </div>
           ) : error ? (
             <div className="text-red-500">{error}</div>
+          ) : searchQuery === "" ? (
+            <div className="flex items-center justify-center h-full">
+              <div className="text-center text-muted-foreground">
+                <div className="mb-4">
+                  <Search className="h-16 w-16 mx-auto text-muted-foreground/50" />
+                </div>
+                <h2 className="text-2xl font-semibold mb-2">Welcome to PodBay</h2>
+                <p className="text-lg mb-1">Search for your favorite podcasts and episodes</p>
+                <p className="text-sm">Start typing in the search box above to discover amazing content</p>
+              </div>
+            </div>
           ) : (
             <>
               <PodcastsSection podcasts={podcasts} searchQuery={searchQuery} />

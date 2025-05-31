@@ -51,7 +51,7 @@ export function InputSearch({
           params.set("q", currentValue);
           router.push(`/?${params.toString()}`, { scroll: false });
         }
-      }, 250),
+      }, 1000),
     [searchParams, router] // Remove inputValue dependency
   );
 
