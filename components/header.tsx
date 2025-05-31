@@ -1,6 +1,6 @@
 import { ChevronLeft, ChevronRight, MoreVertical } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { InputSearch } from "@/components/input-search";
+import { InputSearchWrapper } from "@/components/input-search-wrapper";
 import { useState, useRef, useEffect } from "react";
 import Image from "next/image";
 
@@ -62,7 +62,7 @@ export function Header() {
       </div>
       <div className="flex-1">
         <div className="relative">
-          <InputSearch
+          <InputSearchWrapper
             className="w-full bg-background text-white border-transparent focus:bg-background focus:border-[#7C3AED] hover:border-[#7B7BF0] transition-colors"
             style={{ minHeight: 30 }}
           />
